@@ -1,5 +1,3 @@
-Sure! Here's a readme for the library you described:
-
 # Permaweb Payments Library
 
 The Permaweb Payments library is a powerful tool that simplifies the handling of licensing workflows and payments on the permaweb. It provides an easy-to-use API for developers to integrate licensing functionality into their applications and interact with the Arweave blockchain.
