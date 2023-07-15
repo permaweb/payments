@@ -22,8 +22,10 @@ npm install @permaweb/payments
 
 To initialize the library, import it into your project and call the `init` method with the contract and Arweave parameters:
 
+> NOTE: It is important to use dependency injection and insert a connected contract with a signer
+
 ```javascript
-import Payments from '@permaweb/payments';
+import Payments from "@permaweb/payments";
 
 const payments = Payments.init({ contract, arweave });
 ```
@@ -51,7 +53,7 @@ Here are some examples to help you get started:
 ### Check License Example
 
 ```javascript
-import Payments from '@permaweb/payments';
+import Payments from "@permaweb/payments";
 
 const payments = Payments.init({ contract, arweave });
 
@@ -62,7 +64,7 @@ console.log(`Address ${address} is licensed: ${isLicensed}`);
 ### Make a Payment Example
 
 ```javascript
-import Payments from '@permaweb/payments';
+import Payments from "@permaweb/payments";
 
 const payments = Payments.init({ contract, arweave });
 
@@ -81,4 +83,3 @@ The Permaweb Payments library is released under the [MIT License](https://openso
 ---
 
 Thank you for using the Permaweb Payments library. We hope it simplifies the licensing and payment workflows for your permaweb applications. Happy building!
-

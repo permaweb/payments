@@ -1,6 +1,20 @@
 {
-  "name": "payments",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT"
+  "name": "@permaweb/payments",
+  "type": "module",
+  "version": "0.0.1",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "license": "MIT",
+  "dependencies": {
+    "warp-contracts": "^1.4.14"
+  },
+  "devDependencies": {
+    "esbuild": "^0.18.12",
+    "typescript": "^5.1.6"
+  },
+  "scripts": {
+    "build:src": "esbuild src/index.js --format=esm --bundle --outdir=dist",
+    "build:types": "tsc src/index.js --declaration --allowJs --emitDeclarationOnly --outDir dist",
+    "build": "yarn build:types && yarn build:src"
+  }
 }
