@@ -1,5 +1,7 @@
 # Permaweb Payments Library
 
+> WARNING: This is an experimental library, focused on the Universal Data License.
+
 The Permaweb Payments library is a powerful tool that simplifies the handling of licensing workflows and payments on the permaweb. It provides an easy-to-use API for developers to integrate licensing functionality into their applications and interact with the Arweave blockchain.
 
 ## Features
@@ -27,7 +29,7 @@ To initialize the library, import it into your project and call the `init` metho
 ```javascript
 import Payments from "@permaweb/payments";
 
-const payments = Payments.init({ contract, arweave });
+const payments = Payments.init({ warp, wallet, gateway });
 ```
 
 ### Check License
@@ -35,7 +37,7 @@ const payments = Payments.init({ contract, arweave });
 To check if an address is licensed, use the `isLicensed` method:
 
 ```javascript
-const isLicensed = await payments.isLicensed(address);
+const isLicensed = await payments.isLicensed(contract, addr);
 ```
 
 ### Make a Payment
@@ -43,7 +45,7 @@ const isLicensed = await payments.isLicensed(address);
 To initiate a payment, use the `pay` method:
 
 ```javascript
-await payments.pay(address);
+await payments.pay(contract, addr);
 ```
 
 ## Examples
@@ -55,10 +57,10 @@ Here are some examples to help you get started:
 ```javascript
 import Payments from "@permaweb/payments";
 
-const payments = Payments.init({ contract, arweave });
+const payments = Payments.init({ warp, wallet, gateway });
 
-const isLicensed = await payments.isLicensed(address);
-console.log(`Address ${address} is licensed: ${isLicensed}`);
+const isLicensed = await payments.isLicensed(contract, addr);
+console.log(`Address ${addr} is licensed: ${isLicensed}`);
 ```
 
 ### Make a Payment Example
@@ -66,10 +68,10 @@ console.log(`Address ${address} is licensed: ${isLicensed}`);
 ```javascript
 import Payments from "@permaweb/payments";
 
-const payments = Payments.init({ contract, arweave });
+const payments = Payments.init({ warp, wallet, gateway });
 
-await payments.pay(address);
-console.log(`Payment sent to address: ${address}`);
+await payments.pay(contract, addr);
+console.log(`Payment sent to address: ${addr}`);
 ```
 
 ## Contributions
