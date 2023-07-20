@@ -65,6 +65,7 @@ export default {
 				const asset = warp.contract(contract).setEvaluationOptions(options)
 				const u = warp.contract(U).connect(wallet).setEvaluationOptions(options)
 				return of({ contract, addr, asset, u })
+					// TODO: check balance to make sure user can pay?
 					.chain(getLicenseInfo)
 					.chain(isPayPerView)
 					.chain(getPayees)
@@ -100,7 +101,7 @@ export default {
 		}
 
 		function isPayPerView(ctx) {
-			if (toUpper(ctx.license.Access) === toUpper('restricted') && toUpper(ctx.license['Payment-Mode']) === toUpper('Global-Distribution')) {
+			if (toUpper(ctx.license.Access) === toUpper('Restricted') && toUpper(ctx.license['Payment-Mode']) === toUpper('Global-Distribution')) {
 				return Resolved({
 					...ctx,
 					payment: Number(ctx.license['Access-Fee'].replace('One-Time-', '')) * 1e6

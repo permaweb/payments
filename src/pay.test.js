@@ -15,7 +15,7 @@ test('pay license if not paid', async () => {
     wallet: jwk,
     gateway: 'https://arweave.net'
   })
-  const result = await payments.pay('LbYoF5Z7mwSpAjLCPlVPUOym9dP0huGEpZHuCimL9Po', 'vh-NTHVvlKZqRxc8LyyTNok65yQ55a_PJ1zWLb9G2JI')
+  const result = await payments.pay('Lp5y1cVXH2TwBFn7vdYl32sl1Th6pFfGDlJAswywNSA', 'nSi-fTP4iqiSZoZRFjAJiZKKYwQc58zz01DjjYmkJ38')
   console.log(result)
   assert.ok(true)
 })
