@@ -130,12 +130,12 @@ export default {
 			return query(buildInteractionsQuery(), { addrs: [ctx.addr], contracts: [ctx.contract] })
 				.map(
 					compose(
-						interactions => ({ ...ctx, interactions }),
 						pluck('id'),
 						pluck('node'),
 						path(['data', 'transactions', 'edges'])
 					)
 				)
+				.chain(interactions => interactions.length > 0 ? Resolved({ ...ctx, interactions }) : Rejected(false))
 		}
 
 		function getLicenseInfo(ctx) {
