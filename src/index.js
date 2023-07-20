@@ -1,6 +1,9 @@
 import { arGql } from 'ar-gql'
 import { allocate } from './lib/allocate.js'
-import { assoc, path, keys, compose, pick, reduce, prop, pluck, all, equals, values, map } from 'ramda'
+import {
+	assoc, path, keys, compose, pick, reduce,
+	prop, pluck, all, equals, values, map, toUpper
+} from 'ramda'
 
 import { of, fromPromise, Resolved, Rejected } from 'hyper-async'
 
@@ -97,7 +100,7 @@ export default {
 		}
 
 		function isPayPerView(ctx) {
-			if (ctx.license.Access === 'restricted' && ctx.license['Payment-Mode'] === 'Global-Distribution') {
+			if (toUpper(ctx.license.Access) === toUpper('restricted') && toUpper(ctx.license['Payment-Mode']) === toUpper('Global-Distribution')) {
 				return Resolved({
 					...ctx,
 					payment: Number(ctx.license['Access-Fee'].replace('One-Time-', '')) * 1e6
