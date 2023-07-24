@@ -54,6 +54,7 @@ export default {
 		return {
 			isLicensed(contract, addr) {
 				return of({ contract, addr })
+
 					.chain(getLicenseInfo)
 					.chain(findInteractionsByAddress)
 					.chain(getValidity)
@@ -164,8 +165,8 @@ export default {
 function buildInteractionsQuery() {
 	return `query($addrs: [String!]!, $contracts: [String!]!) {
 		transactions(
-			owners: $addrs,
 			tags: [
+				{ name: "Sequencer-Owner", values: $addrs },
 				{ name: "App-Name", values: ["SmartWeaveAction"]},
 				{ name: "Payment-Fee", values: $contracts}
 			]

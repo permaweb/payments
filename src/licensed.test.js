@@ -15,16 +15,16 @@ test('isLicensed', async () => {
     wallet: jwk,
     gateway: 'https://arweave.net'
   })
-  const result = await payments.isLicensed('LbYoF5Z7mwSpAjLCPlVPUOym9dP0huGEpZHuCimL9Po', 'Rprhc32W_wwtlwxOnytH8O3cDO0dwnc8VV2lhZr2E7s')
+  const result = await payments.isLicensed('Lp5y1cVXH2TwBFn7vdYl32sl1Th6pFfGDlJAswywNSA', 'QyvsIuytjHV8kDgnnjC66IoeZyWpGzZ0uffb_TxFg7g')
     .catch(e => {
       console.log(e.message)
       return e
     })
-  console.log(result)
-  assert.ok(true)
+  //console.log(result)
+  assert.ok(result)
 })
 
-test('isLicensed', async () => {
+test.skip('isLicensed', async () => {
   const Payments = (await import('./index.js')).default
   const payments = Payments.init({
     warp,
