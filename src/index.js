@@ -32,7 +32,7 @@ import { of, fromPromise, Resolved, Rejected } from 'hyper-async'
  * @property {Pay} pay
  */
 
-const DRE = 'https://cache-2.permaweb.tools/contract'
+const DRE = 'https://dre-u.warp.cc/contract'
 const U = 'KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw'
 const options = {
 	allowBigInt: true,
@@ -54,7 +54,6 @@ export default {
 		return {
 			isLicensed(contract, addr) {
 				return of({ contract, addr })
-
 					.chain(getLicenseInfo)
 					.chain(findInteractionsByAddress)
 					.chain(getValidity)
@@ -87,7 +86,11 @@ export default {
 						qty: payees[i]
 					}, {
 						strict: true,
-						tags: [{ name: 'Payment-Fee', value: ctx.contract }]
+						tags: [
+							{ name: 'Payment-Fee', value: ctx.contract },
+							{ name: 'Target', value: i },
+							{ name: 'Fee', value: payees[i] }
+						]
 					})),
 					keys
 				)(payees)
@@ -106,6 +109,11 @@ export default {
 				return Resolved({
 					...ctx,
 					payment: Number(ctx.license['Access-Fee'].replace('One-Time-', '')) * 1e6
+				})
+			} else if (toUpper(ctx.license['Commercial-Use']) === toUpper('Allowed')) {
+				return Resolved({
+					...ctx,
+					payment: Number(ctx.license['License-Fee'].replace('One-Time-', '')) * 1e6
 				})
 			} else {
 				return Rejected({ ok: false, message: 'License not Pay Per View' })
@@ -147,7 +155,7 @@ export default {
 			const getTx = fromPromise(argql.tx)
 			return getTx(ctx.contract)
 				.map(compose(
-					pick(['License', 'Access', 'Access-Fee', 'Payment-Mode']),
+					pick(['License', 'Access', 'Access-Fee', 'Payment-Mode', 'Commercial-Use', 'License-Fee']),
 					reduce((a, t) => assoc(t.name, t.value, a), {}),
 					prop('tags')
 				))
