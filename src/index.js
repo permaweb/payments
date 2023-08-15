@@ -105,18 +105,18 @@ export default {
 		}
 
 		function isPayPerView(ctx) {
-			if (toUpper(ctx.license.Access) === toUpper('Restricted') && toUpper(ctx.license['Payment-Mode']) === toUpper('Global-Distribution')) {
+			if (ctx.license.Access && toUpper(ctx.license.Access) === toUpper('Restricted') && toUpper(ctx.license['Payment-Mode']) === toUpper('Global-Distribution')) {
 				return Resolved({
 					...ctx,
 					payment: Number(ctx.license['Access-Fee'].replace('One-Time-', '')) * 1e6
 				})
-			} else if (toUpper(ctx.license['Commercial-Use']) === toUpper('Allowed')) {
+			} else if (ctx.license['Commercial-Use'] && toUpper(ctx.license['Commercial-Use']) === toUpper('Allowed')) {
 				return Resolved({
 					...ctx,
 					payment: Number(ctx.license['License-Fee'].replace('One-Time-', '')) * 1e6
 				})
 			} else {
-				return Rejected({ ok: false, message: 'License not Pay Per View' })
+				return Rejected({ ok: false, message: 'License not Available' })
 			}
 		}
 
@@ -125,7 +125,7 @@ export default {
 		}
 
 		function getValidity(ctx) {
-			const read = fromPromise(() => fetch(`${DRE}/?id=${U}`).then(r => r.json()))
+			const read = fromPromise(() => fetch(`${DRE}/?id=${U}&validity=true`).then(r => r.json()))
 			// const u = warp.contract(U).setEvaluationOptions(options)
 			// const read = fromPromise(u.readState.bind(u))
 			return read()
