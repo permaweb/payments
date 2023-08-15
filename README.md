@@ -59,7 +59,7 @@ import Payments from "@permaweb/payments";
 
 const payments = Payments.init({ warp, wallet, gateway });
 
-const isLicensed = await payments.isLicensed(contract, addr);
+const isLicensed = await payments.isLicensed(atomic-asset-id, wallet-addr);
 console.log(`Address ${addr} is licensed: ${isLicensed}`);
 ```
 
@@ -70,7 +70,7 @@ import Payments from "@permaweb/payments";
 
 const payments = Payments.init({ warp, wallet, gateway });
 
-await payments.pay(contract, addr);
+await payments.pay(atomic-asset-id, wallet-addr);
 console.log(`Payment sent to address: ${addr}`);
 ```
 
