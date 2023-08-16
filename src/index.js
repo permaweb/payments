@@ -2,11 +2,12 @@ import { arGql } from 'ar-gql'
 import { allocate } from './lib/allocate.js'
 import {
 	assoc, path, keys, compose, pick, reduce,
-	prop, pluck, all, equals, values, map, toUpper
+	prop, pluck, all, equals, values, map, toUpper,
+	omit
 } from 'ramda'
 
 import { of, fromPromise, Resolved, Rejected } from 'hyper-async'
-
+const UCM = 'tfalT8Z-88riNtoXdF5ldaBtmsfcSmbMqWLh2DHJIbg'
 /**
  * @typedef {Object} Env
  * @property {any} warp
@@ -55,7 +56,9 @@ export default {
 			isLicensed(contract, addr) {
 				return of({ contract, addr })
 					.chain(getLicenseInfo)
+					.map(x => (console.log(x), x))
 					.chain(findInteractionsByAddress)
+
 					.chain(getValidity)
 					.map(allValid)
 					.bichain(_ => Resolved(false), Resolved)
@@ -65,13 +68,30 @@ export default {
 				const asset = warp.contract(contract).setEvaluationOptions(options)
 				const u = warp.contract(U).connect(wallet).setEvaluationOptions(options)
 				return of({ contract, addr, asset, u })
-					// TODO: check balance to make sure user can pay?
 					.chain(getLicenseInfo)
 					.chain(isPayPerView)
+					.chain(checkBalance)
 					.chain(getPayees)
 					.toPromise()
 					.then(makePaymentAsync)
 			}
+		}
+
+		function checkBalance(ctx) {
+			const view = fromPromise(ctx.u.viewState.bind(ctx.u))
+			return view({ function: 'balance', target: ctx.addr })
+				.map(_ => {
+					ctx.balance = _.result.balance
+					return ctx
+				})
+				.chain(ctx => {
+					if (ctx.balance < ctx.payment) {
+						return Rejected('Not Enough Balance to license')
+					} else {
+						return Resolved(ctx)
+					}
+				})
+
 		}
 
 		function makePaymentAsync(ctx) {
@@ -101,7 +121,7 @@ export default {
 		function getPayees(ctx) {
 			const read = fromPromise(ctx.asset.readState.bind(ctx.asset))
 			return read().map(path(['cachedValue', 'state', 'balances']))
-				.map(owners => ({ ...ctx, owners }))
+				.map(owners => ({ ...ctx, owners: omit([UCM], owners) }))
 		}
 
 		function isPayPerView(ctx) {
