@@ -56,7 +56,6 @@ export default {
 			isLicensed(contract, addr) {
 				return of({ contract, addr })
 					.chain(getLicenseInfo)
-					.map(x => (console.log(x), x))
 					.chain(findInteractionsByAddress)
 
 					.chain(getValidity)
@@ -86,7 +85,7 @@ export default {
 				})
 				.chain(ctx => {
 					if (ctx.balance < ctx.payment) {
-						return Rejected('Not Enough Balance to license')
+						return Rejected(Error('Not Enough Balance to license'))
 					} else {
 						return Resolved(ctx)
 					}
