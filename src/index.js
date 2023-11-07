@@ -17,12 +17,14 @@ const UCM = 'tfalT8Z-88riNtoXdF5ldaBtmsfcSmbMqWLh2DHJIbg'
 
 /**
  * @callback Licensed
+ * @param {string} contract - contract address
  * @param {string} addr - wallet address
  * @returns {Promise<Boolean>}
  */
 
 /**
  * @callback Pay
+ * @param {string} contract - contract address
  * @param {string} address -  wallet address
  * @returns {Promise<{ok:Boolean}>}
  */
